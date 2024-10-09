@@ -15,10 +15,9 @@ jobs:
 
     steps:
       - name: Uses Node.js ${{ matrix.node-version }}
-        uses: actions/checkout@v2
-        run: |
-          cd server
-          npm run test
+      - uses: actions/checkout@v2
+      - run: cd server
+      - run: npm run test
   # Building all application
   build:
     needs: ci
