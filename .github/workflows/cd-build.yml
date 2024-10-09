@@ -16,4 +16,5 @@ jobs:
     uses: ./build.yml
   # Deploy application
   deploy:
+    needs: [ tests, build ]
     uses: ./deploy.yml
