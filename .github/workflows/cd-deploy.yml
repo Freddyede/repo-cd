@@ -1,18 +1,29 @@
-name: Deploy (scp Client APP)
+name: Deployement
 
 on:
-  workflow_dispatch:
-    workflows_run:
-    workflows: ['Cd-build']
-    types: [completed]
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
-   # Deploy application to any server
-  deploy (scp client app):
+  build-and-deploy:
+
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: scp Client APP
-      - uses: c0c1/scp-action@v1.0
+        uses: c0c1/scp-action@v1.0
         with:
           # Source dir to deploy
           src: "client/dist"
@@ -20,41 +31,29 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           # Remote dir path
           remote: "/var/www/html"
-          # SSH Port
+            # SSH Port
           # SSH User name
           user: ${{ secrets.SERVER_USERNAME }}
           # Private key
           key: ${{ secrets.SERVER_SSH_KEY }}
+
       - name: Copy Caddy config
         uses: c0c1/scp-action@v1.0
         with:
-          # Source dir to deploy
+          # Sorce dir to deplo
           src: "Caddyfile"
           # SSH address
           host: ${{ secrets.SERVER_HOST }}
           # Remote dir path
           remote: "/etc/caddy/Caddyfile"
-          # SSH Port
+            # SSH Port
           # SSH User name
           user: ${{ secrets.SERVER_USERNAME }}
           # Private key
           key: ${{ secrets.SERVER_SSH_KEY }}
-      - name: Copy Caddy config
-        uses: c0c1/scp-action@v1.0
-        with:
-          # Source dir to deploy
-          src: "Caddyfile"
-          # SSH address
-          host: ${{ secrets.SERVER_HOST }}
-          # Remote dir path
-          remote: "/etc/caddy/Caddyfile"
-          # SSH Port
-          # SSH User name
-          user: ${{ secrets.SERVER_USERNAME }}
-          # Private key
-          key: ${{ secrets.SERVER_SSH_KEY }}
+
       - name: ssh pipelines
-      - uses: cross-the-world/ssh-pipeline@master
+        uses: cross-the-world/ssh-pipeline@master
         env:
           WELCOME: "ssh pipeline"
         with:
