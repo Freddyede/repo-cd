@@ -8,7 +8,7 @@ on:
 
 jobs:
   # Testing application
-  tests:
+  ci:
     uses: ./tests.yml
 
   # Building application
@@ -16,5 +16,5 @@ jobs:
     uses: ./build.yml
   # Deploy application
   deploy:
-    needs: [ tests, build ]
+    needs: [ ci, build ]
     uses: ./deploy.yml
