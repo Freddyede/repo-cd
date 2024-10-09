@@ -1,21 +1,19 @@
-name: Deployement
+name: CD deploy
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
+    workflow_run:
+      workflows: ['Cd-build']
+      types: [completed]
 
 jobs:
-  build-and-deploy:
-
+  deploy:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
