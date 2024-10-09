@@ -8,5 +8,5 @@ on:
 
 jobs:
   # Testing application
-  ci:
-    uses: ./.github/workflows/children/tests.yml
+  dev-ci:
+    uses: ./.github/workflows/tests.yml

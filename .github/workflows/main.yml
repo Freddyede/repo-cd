@@ -9,13 +9,13 @@ on:
 jobs:
   # Testing application
   ci:
-    uses: ./.github/workflows/children/tests.yml
+    uses: ./.github/workflows/tests.yml
 
   # Building application
   build:
     needs: ci
-    uses: ./.github/workflows/children/build.yml
+    uses: ./.github/workflows/build.yml
   # Deploy application
   deploy:
     needs: build
-    uses: ./.github/workflows/children/deploy.yml
+    uses: ./.github/workflows/deploy.yml
