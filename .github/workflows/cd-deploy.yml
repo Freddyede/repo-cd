@@ -1,7 +1,8 @@
 name: Deploy (scp Client APP)
 
 on:
-  workflow_run:
+  workflow_dispatch:
+    workflows_run:
     workflows: ['Cd-build']
     types: [completed]
 jobs:

@@ -1,7 +1,8 @@
 name: Deploy (Copy caddy config)
 
 on:
-  workflows_run:
+  workflow_dispatch:
+    workflows_run:
     workflows: ["Deploy (scp Client APP)"]
     types: [succeed]
 
