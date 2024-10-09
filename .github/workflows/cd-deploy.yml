@@ -1,0 +1,26 @@
+name: Deploy (scp Client APP)
+
+on:
+  workflow_run:
+    workflows: ['Cd-build']
+    types: [completed]
+jobs:
+   # Deploy application to any server
+  deploy (scp client app):
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: scp Client APP
+      - uses: c0c1/scp-action@v1.0
+        with:
+          # Source dir to deploy
+          src: "client/dist"
+          # SSH address
+          host: ${{ secrets.SERVER_HOST }}
+          # Remote dir path
+          remote: "/var/www/html"
+          # SSH Port
+          # SSH User name
+          user: ${{ secrets.SERVER_USERNAME }}
+          # Private key
+          key: ${{ secrets.SERVER_SSH_KEY }}
