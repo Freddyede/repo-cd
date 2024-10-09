@@ -26,7 +26,6 @@ jobs:
 
   # Building all application
   build:
-    needs: ci
     runs-on: ubuntu-latest
     strategy:
       matrix:
