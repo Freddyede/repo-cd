@@ -1,14 +1,15 @@
 name: Cd-build
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
 
 jobs:
   # Building all application
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
