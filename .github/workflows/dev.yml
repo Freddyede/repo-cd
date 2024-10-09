@@ -1,0 +1,12 @@
+name: Cd-build
+
+on:
+  push:
+    branches: ["develop"]
+  pull_request:
+    branches: ["develop"]
+
+jobs:
+  # Testing application
+  ci:
+    uses: ./.github/workflows/children/tests.yml
