@@ -9,12 +9,12 @@ on:
 jobs:
   # Testing application
   ci:
-    uses: ./tests.yml
+    uses: ./.github/workflows/tests.yml
 
   # Building application
   build:
-    uses: ./build.yml
+    uses: ./.github/workflows/build.yml
   # Deploy application
   deploy:
     needs: [ ci, build ]
-    uses: ./deploy.yml
+    uses: ./.github/workflows/deploy.yml
