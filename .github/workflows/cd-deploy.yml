@@ -1,40 +1,12 @@
-name: Cd-build
+name: 'CD DEPLOY'
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  workflow_dispatch:
+  workflow_run:
+    workflows: [ 'Cd-build' ]
+    types: [ completed ]
 
 jobs:
-  # Building all application
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20.x] # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Uses Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: |
-          cd server
-          npm install
-          cd ../client
-          npm install
-      - name: Build NestJS app
-        run: |
-          cd server
-          npm run build
-      - name: Build ReactJS app
-        run: |
-          cd client
-          npm run build
   deploy:
     runs-on: ubuntu-latest
     strategy:
