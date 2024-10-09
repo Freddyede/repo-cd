@@ -2,7 +2,7 @@ name: Deploy (Copy caddy config)
 
 on:
   workflows_run:
-    workflows: ["Deploy (Copy caddy config)"]
+    workflows: ["Deploy (scp Client APP)"]
     types: [succeed]
 
 jobs:
