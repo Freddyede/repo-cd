@@ -17,5 +17,5 @@ jobs:
     uses: ./.github/workflows/build.yml
   # Deploy application
   deploy:
-    needs: [ ci, build ]
+    needs: ci
     uses: ./.github/workflows/deploy.yml
